@@ -1,39 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../App.css";
 
-import { filteredCourses } from './Constant'
+import { filteredCourses } from './Constant';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const MyNavbar = () => {
+  const [courseParent, setCourseParent] = useState("");
 
-  const [subMenu, setSubMenu] = useState([]);
-
-  const [activeKey, setActiveKey] = useState(null);
-
-  const [openCourse, setOpenCourse] = useState(false);
-  const handleKeyClick = (key) => {
-    setActiveKey((prevKey) => (prevKey === key ? null : key)); // Toggle active key
-
-  };
-
-  const whatsappNumber = "+917542061065";
-
-
-  function openCourseFun() {
-    setOpenCourse(!openCourse)
+  // Function to set the selected category for mobile view
+  function displayCourse(key) {
+    setCourseParent(key);
   }
 
   return (
-
     <>
-      {/* why my filteredCourses <li> </li> item is not in horizantal when d-flex  */}
-      < nav className="my_navbar navbar navbar-expand-lg fixed-top mynavbar_container" >
-        {/* <div className="container-fluid"> */}
-        <Link Link to="/" className="navbar-brand" >
-          <img src={"./assets/image/logo.png"} className="logo_img" alt="Logo" />
-        </Link >
+      <nav className="my_navbar navbar navbar-expand-lg sticky-top" id="myNavbar">
+        <Link to="/" className="navbar-brand">
+          <img src={"/assets/image/logo.png"} className="logo_img img-fluid" alt="Logo" />
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -47,99 +33,103 @@ const MyNavbar = () => {
         </button>
 
         <div className="collapse navbar-collapse navbar_content_section" id="navbarNav">
-          <div className="col-lg-9 col-12 ">
-            <ul className="navbar-nav justify-content-center ">
+          <div className="col-lg-9 col-12">
+            <ul className="navbar-nav justify-content-center">
               <li className="nav-item">
                 <NavLink className="nav-link fs-4 nav_item" to="/" end>
                   Home
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link fs-4 nav_item" to="/About">
+                <NavLink className="nav-link fs-4 nav_item" to="/about">
                   About
                 </NavLink>
               </li>
 
-              {/* value is is an array of course. when click on key value array should be display just below that key */}
-              <li className="nav-item dropdown">
+              {/* For large screens (d-md-block) */}
+              <li className="nav-item dropdown d-md-block d-none">
                 <NavLink
                   className="nav-link dropdown-toggle fs-4 nav_item"
-                  id="navbarDropdownMenuLink"
-                  role="button"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
                 >
                   Course
                 </NavLink>
                 <div className="submenu_box dropdown-menu">
-
-                  <div className="row ps-md-5 px-2" aria-labelledby="navbarDropdownMenuLink">
+                  <div className="row px-2" aria-labelledby="navbarDropdownMenuLink">
                     {Object.entries(filteredCourses).map(([key, value]) => (
-                      <div className="col-md-3 col-12 ">
-                        <li key={key} style={{ color: "blue" }} >
-
-                          <span onClick={() => handleKeyClick(key)} className="submenu_item ">{key}</span>
-                          <ul style={{}} className="course_submenu">
-                            {value.map((course, index) => (
-                              <Link key={index}
-
-                                to={`/CourseDetails/${course}`}
-                                style={{ color: "black" }}
-
-                              >
-                                <li>{course}</li>
-                              </Link>
-                            ))}
-                          </ul>
-
-
-
-
-                        </li>
+                      <div className="col-md-3 course-list-box col-12" key={key}>
+                        <span className="submenu_item">{key}</span>
+                        <ul className="course-list">
+                          {value.map((course, index) => (
+                            <li key={index}>
+                              <Link to={`/course_details/${course}`}>{course}</Link>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     ))}
                   </div>
-
-
                 </div>
-
               </li>
 
+              {/* For mobile screens (d-md-none) */}
+              <li className="nav-item dropdown d-md-none d-block">
+                <NavLink
+                  className="nav-link dropdown-toggle fs-4 nav_item"
+                  data-bs-toggle="dropdown"
+                >
+                  Courses
+                </NavLink>
+                <div className="submenu_box dropdown-menu">
+                  <div className="row px-2" aria-labelledby="navbarDropdownMenuLink">
+                    {/* Iterate over the courses but only show courses based on selected category */}
+                    {Object.entries(filteredCourses).map(([key, value]) => (
+                      <div className="col-12" key={key}>
+                        <span
+                          className="submenu_item"
+                          onClick={() => displayCourse(key)} // When clicked, display the courses for that category
+                        >
+                          {key}
+                        </span>
+                        {courseParent === key && (
+                          <ul className="course-list ">
+                            {value.map((course, index) => (
+                              <li key={index}>
+                                <Link to={`/course_details/${course}`}>{course}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link fs-4 nav_item" to="/Gallery">
+                <NavLink className="nav-link fs-4 nav_item" to="/gallery">
                   Gallery
                 </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link fs-4 nav_item" to="/Contact">
+                <NavLink className="nav-link fs-4 nav_item" to="/contact">
                   Contact
                 </NavLink>
               </li>
             </ul>
-
           </div>
 
-          <div className="col-lg-3  d-lg-block d-none">
-            {/* 
-            <FontAwesomeIcon icon={faPhone} flip className="phone_icon1" />
+          <div className="col-lg-3 d-lg-block d-none">
+            <div className="btn-wrap">
+            <a href={`tel:${7531960128}`} className="btn-common nav-btn btn-common nav-btn">Free consultation</a>
 
-            <span className="ms-2 fs-5 mobile_number">7542061065</span> */}
-
-            <div class="btn-wrap">
-              <a href="#" class="btn-common nav-btn">Free consultation</a>
+              {/* <a href="#" className="btn-common nav-btn">Free consultation</a> */}
             </div>
-
           </div>
         </div>
-
-
-        {/* </div> */}
-      </nav >
-
+      </nav>
     </>
-
   );
 };
 

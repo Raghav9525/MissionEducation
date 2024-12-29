@@ -9,24 +9,23 @@ const HeroSection = () => {
             <div className="row">
               <div className="col-xl-7 col-lg-10">
                 <div className="banner-inner">
-                  <p className="subtitle">SPECIAL OFFER FIRST CUSTOMER</p>
-                  <h1 className="title">
-                    Your <span>success</span> journey starts with us!
-                  </h1>
+                  
+                  <h6 className="title">
+                    Your <span>success</span> journey starts with <span>Mission</span> Education
+                  </h6>
                   <p>
-                    Eduplan Education Can Fulfil Your International Education Dream{" "}
+                    Mission Education Can Fullfill Your National and International Education Dream{" "}
                     <br /> As Per Your Best Fit with world top universities and colleges.
                   </p>
                   <div className="header-btn">
                     <div className="btn-wrap">
-                      <a href="#0" className="btn-common flat-btn btn-active">
+                      <a href="/contact" className="btn-common flat-btn btn-active">
                         apply online
                       </a>
                     </div>
                     <div className="btn-wrap margin-left-20">
-                      <a href="contact.html" className="btn-common fill-btn">
-                        Discover
-                      </a>
+                    <a href={`tel:${7531960128}`} className="btn-common fill-btn">Contact Us</a>
+
                     </div>
                   </div>
                 </div>

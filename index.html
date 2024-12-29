@@ -46,7 +46,21 @@
     crossorigin="anonymous"></script>
   <script type="module" src="/src/main.jsx"></script>
 
+<script>
+  document.addEventListener("scroll", () => {
+  const navbar = document.getElementById("myNavbar");
+  const scrollY = window.scrollY;
 
+  // Adjust the scroll threshold as needed
+  if (scrollY > 50) {
+    navbar.classList.remove("changeBG");
+    navbar.classList.add("changeBG"); // Tailwind utility for background color
+  } else {
+    navbar.classList.remove("changeBG");
+    navbar.classList.add("changeBG");
+  }
+});
+</script>
   <script>var Alert = ReactBootstrap.Alert;</script>
 </body>
 
